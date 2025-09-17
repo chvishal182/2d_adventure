@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import com.chelv.entity.Player;
 import com.chelv.inputHandler.KeyHandler;
+import com.chelv.tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -25,9 +26,10 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
 
-    KeyHandler keyHandler = new KeyHandler();
-    Thread gameThread;
     Player player;
+    Thread gameThread;
+    TileManager tileManager;
+    KeyHandler keyHandler = new KeyHandler();
 
     double playerX = 100;
     double playerY = 100;
@@ -41,6 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyHandler);
         this.setFocusable(true);
         player = new Player(keyHandler, this); 
+        tileManager = new TileManager(this);
     }
 
     public void startGameThread() {
@@ -83,8 +86,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
     }
-     
-    double playerSpeedDouble = 200.00;
 
     public void update(double deltaTime){
        
@@ -96,8 +97,81 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
+        tileManager.draw(g2);
         player.draw(g2);
         g2.dispose();
+    }
+
+    public int getOriginalTileSize() {
+        return originalTileSize;
+    }
+
+    public int getScale() {
+        return scale;
+    }
+
+    public int getMaxScreenCol() {
+        return maxScreenCol;
+    }
+
+    public int getMaxScreenRow() {
+        return maxScreenRow;
+    }
+
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public KeyHandler getKeyHandler() {
+        return keyHandler;
+    }
+
+    public void setKeyHandler(KeyHandler keyHandler) {
+        this.keyHandler = keyHandler;
+    }
+
+    public Thread getGameThread() {
+        return gameThread;
+    }
+
+    public void setGameThread(Thread gameThread) {
+        this.gameThread = gameThread;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public double getPlayerX() {
+        return playerX;
+    }
+
+    public void setPlayerX(double playerX) {
+        this.playerX = playerX;
+    }
+
+    public double getPlayerY() {
+        return playerY;
+    }
+
+    public void setPlayerY(double playerY) {
+        this.playerY = playerY;
+    }
+
+    public int getPlayerSpeed() {
+        return playerSpeed;
+    }
+
+    public void setPlayerSpeed(int playerSpeed) {
+        this.playerSpeed = playerSpeed;
     }
 
 }
